@@ -5,14 +5,17 @@ import remarkFrontmatter from 'remark-frontmatter'
 type Options = Pick<
   NonNullable<Parameters<typeof compileMdx>[1]>,
   'recmaPlugins' | 'rehypePlugins' | 'remarkPlugins' | 'remarkRehypeOptions'
->
+> & { path?: string }
 
 export const compile = async (content: string, options?: Options) => {
-  const compiled = await compileMdx(content, {
-    ...(options ?? {}),
-    outputFormat: 'function-body',
-    remarkPlugins: [remarkFrontmatter, ...(options?.remarkPlugins ?? [])],
-  })
+  const compiled = await compileMdx(
+    { value: content, path: options?.path },
+    {
+      ...(options ?? {}),
+      outputFormat: 'function-body',
+      remarkPlugins: [remarkFrontmatter, ...(options?.remarkPlugins ?? [])],
+    }
+  )
 
   return String(compiled)
 }
