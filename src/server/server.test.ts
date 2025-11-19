@@ -204,7 +204,9 @@ describe('loadMdx', () => {
 
     const mdx = await loadMdx(new Request(`https://some.domain/${path}`))
     expect(getFileContent).toHaveBeenCalledWith(expect.stringContaining(`${path}.mdx`))
-    expect(compile).toHaveBeenCalledWith(mdxContent, undefined)
+    expect(compile).toHaveBeenCalledWith(mdxContent, {
+      path: '/home/josh/Dev/react-router-mdx/posts/path-a.mdx',
+    })
     expect(getAttributes).toHaveBeenCalledWith(mdxContent)
     expect(mdx).toEqual({
       __raw: mdxCompiled,
