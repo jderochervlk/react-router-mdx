@@ -93,7 +93,7 @@ export const loadMdx = async (request: Request, options?: Parameters<typeof comp
   const path = getFilePathBasedOnUrl(request.url, paths, aliases)
   const content = await getFileContent(path)
   const [mdxContent, attributes] = await Promise.all([
-    compile(content, options),
+    compile(content, { ...options, path }),
     getAttributes(content),
   ])
 
